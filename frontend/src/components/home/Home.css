@@ -1,0 +1,24 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.hero-section {
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  padding: 4rem 1rem;
+}
+
+.bold-company-name {
+  color: #1f2937; /* Tailwind gray-800 */
+  font-weight: 700;
+}
+
+.hero-section {
+  background-image: url('../../images/home.jpg'); /* Replace with your image name */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white; /* Optional: ensures text stands out */
+}
+

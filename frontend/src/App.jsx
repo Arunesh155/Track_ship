@@ -9,6 +9,7 @@ import EmployeeDashboard from "./components/expense/employee/EmployeeDashboard";
 import AddExpense from "./components/expense/employee/AddExpense";
 import ManageExpense from "./components/expense/admin/ManageExpense";
 import ViewExpense from "./components/expense/employee/ViewExpense";
+import ExpenseChart from "./components/expense/admin/ExpenseChart";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/employee/add-expense" element={<AddExpense />} />
         <Route path="/admin/manage-expense" element={<ManageExpense />} />
         <Route path="/employee/my-expenses" element={<ViewExpense />} />
+        <Route path="/admin/expense-stats" element={<ExpenseChart />} />
       </Routes>
     </Router>
   );

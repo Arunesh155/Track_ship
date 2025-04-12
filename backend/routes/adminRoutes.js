@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerAdmin, loginAdmin, adminDashboard, getPendingExpenses, approveExpense, rejectExpense } = require("../controllers/adminController");
+const { registerAdmin, loginAdmin, adminDashboard, getPendingExpenses, approveExpense, rejectExpense, getAllExpenseStats } = require("../controllers/adminController");
 const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
@@ -10,5 +10,6 @@ router.get("/dashboard", authMiddleware, adminDashboard);
 router.get("/pending-expenses", getPendingExpenses);
 router.post("/approve-expense/:id", approveExpense);
 router.post("/reject-expense/:id", rejectExpense);
+router.get("/expense-charts", getAllExpenseStats);
 
 module.exports = router;

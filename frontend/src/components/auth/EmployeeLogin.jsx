@@ -14,7 +14,11 @@ const EmployeeLogin = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/api/employees/login", { username, password });
+
+      // ✅ Save token and employee name to localStorage
       localStorage.setItem("employeeToken", response.data.token);
+      localStorage.setItem("employeeName", response.data.name); // assuming backend sends name
+
       alert("Login Successful!");
       navigate("/employee/dashboard"); // Redirect to employee dashboard
     } catch (err) {

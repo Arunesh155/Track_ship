@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Dashboard Options */}
-      <div className="flex justify-center items-center mt-16 space-x-6">
+      <div className="flex justify-center items-center mt-16 space-x-6 flex-wrap">
         {/* Register Employee */}
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-4 rounded-lg text-lg font-semibold shadow-md"
@@ -44,6 +44,14 @@ const AdminDashboard = () => {
           onClick={() => navigate("/admin/manage-expense")}
         >
           Manage Expense
+        </button>
+
+        {/* View Expense Stats */}
+        <button
+          className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-4 rounded-lg text-lg font-semibold shadow-md"
+          onClick={() => navigate("/admin/expense-stats")}
+        >
+          View Expense Stats
         </button>
       </div>
     </div>

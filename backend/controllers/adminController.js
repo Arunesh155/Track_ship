@@ -108,3 +108,28 @@ exports.rejectExpense = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getAllExpenseStats = async (req, res) => {
+  try {
+    const stats = await PendingExpense.aggregate([
+      {
+        $group: {
+          _id: {
+            year: { $year: { $toDate: "$date" } },
+            month: { $month: { $toDate: "$date" } },
+            day: { $dayOfMonth: { $toDate: "$date" } },
+            status: "$status"
+          },
+          totalAmount: { $sum: "$amount" },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1, "_id.day": 1 } }
+    ]);
+
+    res.json(stats);
+  } catch (error) {
+    console.error("Admin expense stats error:", error);
+    res.status(500).json({ message: "Failed to fetch expense stats" });
+  }
+};

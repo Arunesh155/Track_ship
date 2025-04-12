@@ -1,5 +1,27 @@
 import React from "react";
 import Navbar from "./Navbar";
+import { motion } from "framer-motion";
+import productImg from "../../images/product.jpg";
+import serviceImg from "../../images/service.webp";
+import supportImg from "../../images/support.webp";
+
+const serviceData = [
+  {
+    title: "📦 Quality Products",
+    description: "Top-quality products tailored to your needs.",
+    image: productImg,
+  },
+  {
+    title: "🛠 Reliable Services",
+    description: "Timely and efficient service delivery.",
+    image: serviceImg,
+  },
+  {
+    title: "💬 Customer Support",
+    description: "24/7 support to assist your needs.",
+    image: supportImg,
+  },
+];
 
 const Services = () => {
   return (
@@ -7,37 +29,43 @@ const Services = () => {
       <Navbar />
 
       <main className="flex-grow">
-        <section id="services" className="bg-white py-16">
-          <div className="max-w-4xl mx-auto text-center">
+        <section id="services" className="bg-white py-16 px-4">
+          <div className="max-w-6xl mx-auto text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800">Our Services</h2>
-            <div className="grid md:grid-cols-3 gap-8 mt-8">
-              <div className="p-6 bg-gray-100 rounded-lg shadow-md service-card">
-                <h3 className="text-xl font-semibold text-gray-700">📦 Quality Products</h3>
-                <p className="mt-2 text-gray-600">Top-quality products tailored to your needs.</p>
-              </div>
-              <div className="p-6 bg-gray-100 rounded-lg shadow-md service-card">
-                <h3 className="text-xl font-semibold text-gray-700">🛠 Reliable Services</h3>
-                <p className="mt-2 text-gray-600">Timely and efficient service delivery.</p>
-              </div>
-              <div className="p-6 bg-gray-100 rounded-lg shadow-md service-card">
-                <h3 className="text-xl font-semibold text-gray-700">💬 Customer Support</h3>
-                <p className="mt-2 text-gray-600">24/7 support to assist your needs.</p>
-              </div>
-            </div>
           </div>
-        </section>
 
-        <section className="bg-gray-200 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-800">Why Choose Us?</h2>
-            <p className="mt-4 text-gray-600">We are committed to providing the best services in Karur.</p>
+          <div className="space-y-16">
+            {serviceData.map((service, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className={`flex flex-col md:flex-row items-center justify-between bg-white shadow-xl rounded-xl overflow-hidden ${
+                  index % 2 === 1 ? "md:flex-row-reverse" : ""
+                }`}
+              >
+                {/* Image Section */}
+                <div className="md:w-1/2 w-full h-72 md:h-96">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Text Section */}
+                <div className="md:w-1/2 w-full p-8 text-center md:text-left">
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-lg">{service.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </section>
       </main>
-
-      <footer className="site-footer text-center py-4 bg-gray-800 text-white">
-        <p>&copy; 2025 Sri Angalamman Agency. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

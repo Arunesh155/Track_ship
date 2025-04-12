@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import employeeLoginImage from "../../images/employeeLogin.jpg"; // Update with the correct image path
 
 const EmployeeLogin = () => {
   const [username, setUsername] = useState("");
@@ -27,29 +28,54 @@ const EmployeeLogin = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="p-8 bg-white rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Employee Login</h2>
-        {error && <p className="text-red-500">{error}</p>}
-        <form onSubmit={handleLogin}>
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full p-2 border rounded mb-4"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="flex w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Left Image Section */}
+        <div className="w-1/2 hidden md:block">
+          <img
+            src={employeeLoginImage}
+            alt="Employee Login"
+            className="w-full h-full object-cover"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 border rounded mb-4"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">Login</button>
-        </form>
+        </div>
+
+        {/* Right Login Form */}
+        <div className="w-full md:w-1/2 p-8">
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-700" htmlFor="username">
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                className="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-700" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                className="w-full p-3 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded font-semibold mb-4">
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

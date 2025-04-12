@@ -10,15 +10,52 @@
 }
 
 .bold-company-name {
-  color: #1f2937; /* Tailwind gray-800 */
+  color: #eaecf0; /* Tailwind gray-800 */
   font-weight: 700;
 }
 
 .hero-section {
-  background-image: url('../../images/home.jpg'); /* Replace with your image name */
+  position: relative;
+  background-image: url('../../images/home.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white; /* Optional: ensures text stands out */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  overflow: hidden; /* Ensures ::before stays inside */
 }
 
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Adjust transparency here */
+  z-index: 0;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}

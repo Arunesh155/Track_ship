@@ -5,6 +5,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const cors = require("cors");
 
+
 dotenv.config();
 connectDB();
 

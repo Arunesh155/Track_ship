@@ -1,4 +1,6 @@
 const Admin = require("../models/adminModel");
+const PendingExpense = require("../models/PendingExpense");
+const ApprovedExpense = require("../models/ApprovedExpense");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -55,4 +57,54 @@ exports.loginAdmin = async (req, res) => {
 // Admin Dashboard (Protected Route)
 exports.adminDashboard = async (req, res) => {
   res.json({ message: "Welcome to the Admin Dashboard" });
+};
+
+exports.getPendingExpenses = async (req, res) => {
+  try {
+    const expenses = await PendingExpense.find({ status: "pending" });
+    res.json(expenses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.approveExpense = async (req, res) => {
+  try {
+    // Update the expense
+    const expense = await PendingExpense.findByIdAndUpdate(
+      req.params.id,
+      { 
+        status: "approved", 
+        paymentStatus: "Paid", // Ensure paymentStatus is updated
+        rejectionReason: "" 
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!expense) {
+      return res.status(404).json({ message: "Expense not found" });
+    }
+
+    console.log("Updated expense:", expense); // Log to check if the update happened
+
+    res.json({ message: "Expense approved", expense });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+// Reject Expense
+exports.rejectExpense = async (req, res) => {
+  const { reason } = req.body;
+  try {
+    const expense = await PendingExpense.findByIdAndUpdate(
+      req.params.id,
+      { status: "rejected", rejectionReason: reason },
+      { new: true }
+    );
+    res.json({ message: "Expense rejected", expense });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

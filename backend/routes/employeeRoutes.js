@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { registerEmployee, loginEmployee } = require("../controllers/employeeController");
+const { registerEmployee, loginEmployee, addExpense, getMyExpenses } = require("../controllers/employeeController");
 
 const router = express.Router();
 
@@ -19,6 +19,9 @@ const upload = multer({ storage });
 // Employee Registration Route
 router.post("/register", upload.single("proofFile"), registerEmployee);
 router.post("/login", loginEmployee);
+router.post("/add-expense",  upload.single("billImage"), addExpense);
+router.get("/my-expense", getMyExpenses);
+
 
 
 module.exports = router;

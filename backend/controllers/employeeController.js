@@ -1,4 +1,5 @@
 const Employee = require("../models/employeeModel");
+const PendingExpense = require("../models/PendingExpense");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -58,5 +59,40 @@ exports.loginEmployee = async (req, res) => {
   } catch (error) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Server error during login" });
+  }
+};
+
+exports.addExpense = async (req, res) => {
+  const { title, amount, date, description, paymentStatus } = req.body;
+  const billImage = req.file?.filename;
+
+  try {
+    const expense = new PendingExpense({
+      employeeId: req.employeeId,
+      employeeName: req.employeeName, // Employee's name added from the logged-in user
+      title,
+      amount,
+      date,
+      description,
+      billImage,
+      paymentStatus: paymentStatus || "Not Paid", // Default to "Not Paid" if no status is provided
+      status: "pending",
+    });
+
+    await expense.save();
+    res.json({ message: "Expense submitted for approval" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+exports.getMyExpenses = async (req, res) => {
+  try {
+    const expenses = await PendingExpense.find({ employeeId: req.employeeId });
+    res.json(expenses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

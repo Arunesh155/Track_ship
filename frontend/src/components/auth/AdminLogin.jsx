@@ -29,6 +29,12 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+       <button
+        onClick={() => navigate("/")}
+        className="absolute top-4 left-4 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded shadow"
+      >
+        ← 
+      </button>
       <div className="flex w-full max-w-3xl bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Left Image Section */}
         <div className="w-1/2 hidden md:block">

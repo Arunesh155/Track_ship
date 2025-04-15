@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ViewExpense = () => {
   const [expenses, setExpenses] = useState([]);
   const token = localStorage.getItem("employeeToken");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -76,6 +78,12 @@ const ViewExpense = () => {
 
   return (
     <div className="p-6">
+      <button
+        onClick={() => navigate("/employee/dashboard")}
+        className="absolute top-4 left-4 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded shadow"
+      >
+        ← 
+      </button>
       <h2 className="text-2xl font-bold mb-6">My Expenses</h2>
 
       <div className="mb-8">

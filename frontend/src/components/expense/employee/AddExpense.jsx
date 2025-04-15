@@ -53,6 +53,12 @@ const AddExpense = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <button
+        onClick={() => navigate("/employee/dashboard")}
+        className="absolute top-4 left-4 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded shadow"
+      >
+        ← 
+      </button>
       <div className="p-8 bg-white rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Add Expense</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}

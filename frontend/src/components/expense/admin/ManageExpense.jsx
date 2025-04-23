@@ -6,12 +6,12 @@ const ManageExpense = () => {
   const [expenses, setExpenses] = useState([]);
   const [reason, setReason] = useState({});
   const token = localStorage.getItem("adminToken");
-  const navigate = useNavigate(); // ✅ Added this line
+  const navigate = useNavigate();
 
   // Fetch expenses when component mounts
   useEffect(() => {
     const fetchExpenses = async () => {
-      if (!token) return; // If there's no token, do nothing.
+      if (!token) return;
 
       try {
         const res = await axios.get("http://localhost:5000/api/admin/pending-expenses", {
@@ -37,7 +37,7 @@ const ManageExpense = () => {
         }
       );
       alert("Expense approved");
-      setExpenses((prev) => prev.filter((e) => e._id !== id)); // Remove the approved expense
+      setExpenses((prev) => prev.filter((e) => e._id !== id));
     } catch (err) {
       console.error("Approval failed:", err);
     }
@@ -59,7 +59,7 @@ const ManageExpense = () => {
         }
       );
       alert("Expense rejected");
-      setExpenses((prev) => prev.filter((e) => e._id !== id)); // Remove the rejected expense
+      setExpenses((prev) => prev.filter((e) => e._id !== id));
     } catch (err) {
       console.error("Rejection failed:", err);
     }
@@ -71,16 +71,21 @@ const ManageExpense = () => {
         onClick={() => navigate("/admin/dashboard")}
         className="absolute top-4 left-4 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded shadow"
       >
-        ← 
+        ←
       </button>
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Manage Pending Expenses</h2>
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        Manage Pending Expenses
+      </h2>
+
       {expenses.length === 0 ? (
         <p className="text-gray-600 text-center">No pending expenses found.</p>
       ) : (
         expenses.map((exp) => (
           <div key={exp._id} className="expense-card bg-white p-6 mb-6 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold text-gray-800">{exp.title}</h3>
-            <p className="text-gray-700">Employee: {exp.employeeName ? exp.employeeName : "Unknown Employee"}</p>
+            <p className="text-gray-700 font-medium">
+              Submitted by: <span className="text-blue-700">{exp.employeeName}</span>
+            </p>
             <p className="text-gray-600">Amount: ₹{exp.amount}</p>
             <p className="text-gray-600">Date: {new Date(exp.date).toLocaleDateString("en-IN")}</p>
             <p className="text-gray-600">Description: {exp.description}</p>
@@ -95,9 +100,7 @@ const ManageExpense = () => {
 
             <p className="mt-2 font-medium text-sm">
               Paid Status:{" "}
-              <span
-                className={exp.paymentStatus === "Paid" ? "text-green-600" : "text-red-600"}
-              >
+              <span className={exp.paymentStatus === "Paid" ? "text-green-600" : "text-red-600"}>
                 {exp.paymentStatus === "Paid" ? "Paid" : "Unpaid"}
               </span>
             </p>

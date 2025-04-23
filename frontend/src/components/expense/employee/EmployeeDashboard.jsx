@@ -35,38 +35,32 @@ const EmployeeDashboard = () => {
           {isSidebarOpen ? "✖" : "☰"}
         </button>
 
-        {/* Sidebar Menu */}
-        <div className="mt-8 space-y-4">
-          {/* Add Expense */}
-          <div className="group relative">
-            <button
-              className={`flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition ${
-                !isSidebarOpen ? "pointer-events-none opacity-50" : ""
-              }`}
-              onClick={() => navigate("/employee/add-expense")}
-            >
-              <FaPlusCircle />
-              {isSidebarOpen && (
+        {/* Sidebar Menu - Show only if sidebar is open */}
+        {isSidebarOpen && (
+          <div className="mt-8 space-y-4">
+            {/* Add Expense */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/employee/add-expense")}
+              >
+                <FaPlusCircle />
                 <span className="text-md font-medium">Add Expense</span>
-              )}
-            </button>
-          </div>
+              </button>
+            </div>
 
-          {/* My Expenses */}
-          <div className="group relative">
-            <button
-              className={`flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition ${
-                !isSidebarOpen ? "pointer-events-none opacity-50" : ""
-              }`}
-              onClick={() => navigate("/employee/my-expenses")}
-            >
-              <FaListAlt />
-              {isSidebarOpen && (
+            {/* My Expenses */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/employee/my-expenses")}
+              >
+                <FaListAlt />
                 <span className="text-md font-medium">My Expenses</span>
-              )}
-            </button>
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Main Content */}

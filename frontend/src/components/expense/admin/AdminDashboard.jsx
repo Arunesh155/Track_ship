@@ -18,9 +18,8 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-gray-100 flex">
       {/* Sidebar */}
       <div
-        className={`bg-white shadow-md ${
-          isSidebarOpen ? "w-64" : "w-20"
-        } transition-all duration-300 ease-in-out h-screen`}
+        className={`bg-white shadow-md ${isSidebarOpen ? "w-64" : "w-20"
+          } transition-all duration-300 ease-in-out h-screen`}
       >
         {/* Hamburger Icon */}
         <button
@@ -30,68 +29,43 @@ const AdminDashboard = () => {
           {isSidebarOpen ? "✖" : "☰"}
         </button>
 
-        {/* Sidebar Menu */}
-        <div className="mt-8 space-y-4">
-          {/* Register Employee */}
-          <div className="group relative">
-            <button
-              className={`flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition ${
-                !isSidebarOpen ? "pointer-events-none opacity-50" : ""
-              }`}
-              onClick={() => navigate("/admin/register-employee")}
-            >
-              <FaUserPlus />
-              {isSidebarOpen && (
+        {/* Sidebar Menu - Only show when sidebar is open */}
+        {isSidebarOpen && (
+          <div className="mt-8 space-y-4">
+            {/* Register Employee */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/admin/register-employee")}
+              >
+                <FaUserPlus />
                 <span className="text-md font-medium">Register Employee</span>
-              )}
-            </button>
-            {!isSidebarOpen && (
-              <span className="absolute left-full ml-2 top-2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Register
-              </span>
-            )}
-          </div>
+              </button>
+            </div>
 
-          {/* Manage Expense */}
-          <div className="group relative">
-            <button
-              className={`flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition ${
-                !isSidebarOpen ? "pointer-events-none opacity-50" : ""
-              }`}
-              onClick={() => navigate("/admin/manage-expense")}
-            >
-              <FaMoneyBillWave />
-              {isSidebarOpen && (
+            {/* Manage Expense */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/admin/manage-expense")}
+              >
+                <FaMoneyBillWave />
                 <span className="text-md font-medium">Manage Expense</span>
-              )}
-            </button>
-            {!isSidebarOpen && (
-              <span className="absolute left-full ml-2 top-2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Manage
-              </span>
-            )}
-          </div>
+              </button>
+            </div>
 
-          {/* Expense Stats */}
-          <div className="group relative">
-            <button
-              className={`flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition ${
-                !isSidebarOpen ? "pointer-events-none opacity-50" : ""
-              }`}
-              onClick={() => navigate("/admin/expense-stats")}
-            >
-              <FaChartPie />
-              {isSidebarOpen && (
+            {/* Expense Stats */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/admin/expense-stats")}
+              >
+                <FaChartPie />
                 <span className="text-md font-medium">Expense Stats</span>
-              )}
-            </button>
-            {!isSidebarOpen && (
-              <span className="absolute left-full ml-2 top-2 bg-black text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Stats
-              </span>
-            )}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Main Content */}
@@ -116,12 +90,14 @@ const AdminDashboard = () => {
             Welcome to the Admin Dashboard
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
+            <div
+              className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+              onClick={() => navigate("/employee/all")}
+            >
               <h3 className="text-xl font-semibold mb-2">Employees</h3>
-              <p className="text-gray-600">
-                Register and manage employee accounts.
-              </p>
+              <p className="text-gray-600">View all registered employees.</p>
             </div>
+
             <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
               <h3 className="text-xl font-semibold mb-2">Expenses</h3>
               <p className="text-gray-600">

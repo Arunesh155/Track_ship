@@ -8,11 +8,13 @@ exports.registerEmployee = async (req, res) => {
   try {
     const { name, username, password, age, mobileNo, proofType } = req.body;
 
-    if (!req.file) {
-      return res.status(400).json({ error: "Proof file is required." });
+    // Ensure both files are uploaded
+    if (!req.files || !req.files.proofFile || !req.files.employeePhoto) {
+      return res.status(400).json({ error: "Both proof file and employee photo are required." });
     }
 
-    const proofFile = req.file.path;
+    const proofFilePath = req.files.proofFile[0].path;
+    const photoFilePath = req.files.employeePhoto[0].path;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -23,13 +25,14 @@ exports.registerEmployee = async (req, res) => {
       age,
       mobileNo,
       proofType,
-      proofFile,
+      proofFile: proofFilePath,
+      employeePhoto: photoFilePath,
     });
 
     await newEmployee.save();
     res.status(201).json({ message: "Employee registered successfully" });
   } catch (error) {
-    console.error("Registration Error:", error); // 👈 log actual error
+    console.error("Registration Error:", error);
     res.status(500).json({ error: "Failed to register employee" });
   }
 };
@@ -94,5 +97,15 @@ exports.getMyExpenses = async (req, res) => {
     res.json(expenses);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getAllEmployees = async (req, res) => {
+  try {
+    const employees = await Employee.find({}, "-password"); // Exclude passwords
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error("Fetch Employees Error:", error);
+    res.status(500).json({ error: "Failed to fetch employees" });
   }
 };

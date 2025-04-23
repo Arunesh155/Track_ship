@@ -13,6 +13,7 @@ import ExpenseChart from "./components/expense/admin/ExpenseChart";
 import About from "./components/home/About";
 import Contact from "./components/home/Contact";
 import Services from "./components/home/Services";
+import AllEmployee from "./components/expense/admin/AllEmployee";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/employee/all" element={<AllEmployee />} />
       </Routes>
     </Router>
   );

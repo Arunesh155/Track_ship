@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { registerEmployee, loginEmployee, addExpense, getMyExpenses } = require("../controllers/employeeController");
+const { registerEmployee, loginEmployee, addExpense, getMyExpenses, getAllEmployees} = require("../controllers/employeeController");
 
 const router = express.Router();
 
@@ -17,10 +17,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Employee Registration Route
-router.post("/register", upload.single("proofFile"), registerEmployee);
+router.post(
+  "/register",
+  upload.fields([
+    { name: "proofFile", maxCount: 1 },
+    { name: "employeePhoto", maxCount: 1 },
+  ]),
+  registerEmployee
+);
+
 router.post("/login", loginEmployee);
 router.post("/add-expense",  upload.single("billImage"), addExpense);
 router.get("/my-expense", getMyExpenses);
+router.get("/all", getAllEmployees);
 
 
 

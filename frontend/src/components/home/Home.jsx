@@ -35,10 +35,10 @@ const Home = () => {
           <div>
             <h4 className="text-white text-base font-semibold mb-3">Explore</h4>
             <ul className="space-y-2">
-              <li><a href="#home" className="hover:underline">Home</a></li>
-              <li><a href="#services" className="hover:underline">Services</a></li>
-              <li><a href="#about" className="hover:underline">About Us</a></li>
-              <li><a href="#contact" className="hover:underline">Contact</a></li>
+              <li><a href="/" className="hover:underline">Home</a></li>
+              <li><a href="/services" className="hover:underline">Services</a></li>
+              <li><a href="/about" className="hover:underline">About Us</a></li>
+              <li><a href="/contact" className="hover:underline">Contact</a></li>
               <li><a href="#faq" className="hover:underline">FAQ</a></li>
             </ul>
           </div>

@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const { registerEmployee, loginEmployee, addExpense, getMyExpenses, getAllEmployees} = require("../controllers/employeeController");
+const authenticate = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -27,10 +28,9 @@ router.post(
 );
 
 router.post("/login", loginEmployee);
-router.post("/add-expense",  upload.single("billImage"), addExpense);
-router.get("/my-expense", getMyExpenses);
+router.post("/add-expense",authenticate , upload.single("billImage"), addExpense);
+router.get("/my-expense",authenticate, getMyExpenses);
 router.get("/all", getAllEmployees);
-
 
 
 module.exports = router;

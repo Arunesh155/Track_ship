@@ -1,22 +1,25 @@
 const jwt = require("jsonwebtoken");
 const Employee = require("../models/employeeModel");
 
-const authMiddleware = (req, res, next) => {
-  const token = req.header("Authorization");
 
-  if (!token) {
-    return res.status(401).json({ message: "Access Denied: No Token Provided" });
+const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "No token provided" });
   }
+
+  const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.admin = decoded;
+    const decoded = jwt.verify(token, "your_jwt_secret"); // 🔐 use your secret key
+    req.employeeId = decoded.id;
+    req.employeeName = decoded.name; // include name in token when signing
     next();
-  } catch (error) {
-    res.status(401).json({ message: "Invalid Token" });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
-
 
 const verifyEmployee = async (req, res, next) => {
   try {
@@ -45,4 +48,4 @@ const verifyEmployee = async (req, res, next) => {
 };
 
 module.exports = verifyEmployee;
-module.exports = authMiddleware;
+module.exports = authenticate;

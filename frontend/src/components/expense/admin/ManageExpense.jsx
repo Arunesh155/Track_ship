@@ -85,7 +85,7 @@ const ManageExpense = () => {
           {expenses.map((exp) => (
             <div key={exp._id} className="expense-card bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold text-gray-800">{exp.title}</h3>
-
+              <p className="text-gray-600">Submitted by: {exp.employeeName}</p>
               <p className="text-gray-600">Amount: ₹{exp.amount}</p>
               <p className="text-gray-600">
                 Date: {new Date(exp.date).toLocaleDateString("en-IN")}

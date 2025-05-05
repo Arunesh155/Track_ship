@@ -20,6 +20,7 @@ const EmployeeLogin = () => {
       });
 
       localStorage.setItem("employeeToken", response.data.token);
+      localStorage.setItem("employeeId", response.data.employee.id);
       localStorage.setItem("employeeName", response.data.employee.name);
 
       alert("Login Successful!");

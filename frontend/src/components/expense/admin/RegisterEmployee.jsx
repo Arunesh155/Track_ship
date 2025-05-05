@@ -9,6 +9,8 @@ const RegisterEmployee = () => {
     password: "",
     age: "",
     mobileNo: "",
+    designation: "",
+    salary: "",
     proofType: "Aadhar",
     proofFile: null,
     employeePhoto: null,
@@ -22,6 +24,8 @@ const RegisterEmployee = () => {
     password: true,
     age: true,
     mobileNo: true,
+    designation: true,
+    salary: true,
     proofFile: true,
     employeePhoto: true,
   });
@@ -29,18 +33,16 @@ const RegisterEmployee = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
 
-    if (e.target.name === "mobileNo") {
+    if (name === "mobileNo") {
       const mobilePattern = /^[0-9]{10}$/;
-      setIsValid({ ...isValid, mobileNo: mobilePattern.test(e.target.value) });
+      setIsValid({ ...isValid, mobileNo: mobilePattern.test(value) });
     }
 
-    if (e.target.name === "password") {
-      setIsValid({
-        ...isValid,
-        password: e.target.value.length >= 6,
-      });
+    if (name === "password") {
+      setIsValid({ ...isValid, password: value.length >= 6 });
     }
   };
 
@@ -125,6 +127,16 @@ const RegisterEmployee = () => {
           <label className="block mb-1 font-medium">Mobile Number:</label>
           <input type="text" name="mobileNo" value={formData.mobileNo} onChange={handleChange} required className="w-full p-2 border rounded" />
           {!isValid.mobileNo && <p className="text-red-500 text-sm">Enter a valid 10-digit mobile number.</p>}
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Designation:</label>
+          <input type="text" name="designation" value={formData.designation} onChange={handleChange} required className="w-full p-2 border rounded" />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Salary:</label>
+          <input type="number" name="salary" value={formData.salary} onChange={handleChange} required className="w-full p-2 border rounded" />
         </div>
 
         <div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ExpenseHistory = () => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -26,7 +28,13 @@ const ExpenseHistory = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Expense History</h2>
+        <button
+        onClick={() => navigate("/admin/dashboard")}
+        className="absolute top-4 left-4 bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded shadow"
+      >
+        ←
+      </button>
+      <h2 className="text-2xl font-bold text-center mb-4">Expense History</h2>
 
       {loading ? (
         <p>Loading expenses...</p>

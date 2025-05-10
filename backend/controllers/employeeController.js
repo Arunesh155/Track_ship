@@ -1,5 +1,5 @@
 const Employee = require("../models/employeeModel");
-const PendingExpense = require("../models/PendingExpense");
+const PendingExpense = require("../models/Expense");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 

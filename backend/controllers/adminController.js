@@ -1,6 +1,6 @@
 const Admin = require("../models/adminModel");
-const PendingExpense = require("../models/PendingExpense");
-const ApprovedExpense = require("../models/ApprovedExpense");
+const PendingExpense = require("../models/Expense");
+const Income = require("../models/Income");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -141,5 +141,28 @@ exports.getExpenseHistory = async (req, res) => {
   } catch (error) {
     console.error("Error fetching expense history:", error);
     res.status(500).json({ message: "Failed to fetch expense history" });
+  }
+};
+
+// Create new income entry
+exports.addIncome = async (req, res) => {
+  try {
+    const income = new Income(req.body);
+    await income.save();
+    res.status(201).json({ message: "Income added successfully", income });
+  } catch (error) {
+    console.error("Add income error:", error);
+    res.status(500).json({ message: "Failed to add income" });
+  }
+};
+
+// Get all income entries
+exports.getAllIncomes = async (req, res) => {
+  try {
+    const incomes = await Income.find().sort({ date: -1 });
+    res.json(incomes);
+  } catch (error) {
+    console.error("Get incomes error:", error);
+    res.status(500).json({ message: "Failed to fetch incomes" });
   }
 };

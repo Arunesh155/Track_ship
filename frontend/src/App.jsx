@@ -16,6 +16,7 @@ import Services from "./components/home/Services";
 import AllEmployee from "./components/expense/admin/AllEmployee";
 import ManageIncome from "./components/expense/admin/ManageIncome";
 import ExpenseHistory from "./components/expense/admin/ExpenseHistory";
+import IncomeHistory from "./components/expense/admin/IncomeHistory";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/employee/all" element={<AllEmployee />} />
         <Route path="/admin/manage-income" element={<ManageIncome />} />
         <Route path="/admin/expense-history" element={<ExpenseHistory />} />
+        <Route path="/admin/income-history" element={<IncomeHistory />} />
       </Routes>
     </Router>
   );

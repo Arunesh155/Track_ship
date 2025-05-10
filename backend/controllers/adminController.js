@@ -133,3 +133,13 @@ exports.getAllExpenseStats = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch expense stats" });
   }
 };
+
+exports.getExpenseHistory = async (req, res) => {
+  try {
+    const expenses = await PendingExpense.find().sort({ date: -1 }); // newest first
+    res.json(expenses);
+  } catch (error) {
+    console.error("Error fetching expense history:", error);
+    res.status(500).json({ message: "Failed to fetch expense history" });
+  }
+};

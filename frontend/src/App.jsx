@@ -14,6 +14,8 @@ import About from "./components/home/About";
 import Contact from "./components/home/Contact";
 import Services from "./components/home/Services";
 import AllEmployee from "./components/expense/admin/AllEmployee";
+import ManageIncome from "./components/expense/admin/ManageIncome";
+import ExpenseHistory from "./components/expense/admin/ExpenseHistory";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/services" element={<Services />} />
         <Route path="/employee/all" element={<AllEmployee />} />
+        <Route path="/admin/manage-income" element={<ManageIncome />} />
+        <Route path="/admin/expense-history" element={<ExpenseHistory />} />
       </Routes>
     </Router>
   );

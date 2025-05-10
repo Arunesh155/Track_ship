@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserPlus, FaMoneyBillWave, FaChartPie } from "react-icons/fa";
+import { FaUserPlus, FaMoneyBillWave, FaChartPie, FaDollarSign, FaHistory } from "react-icons/fa";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -51,6 +51,28 @@ const AdminDashboard = () => {
               >
                 <FaMoneyBillWave />
                 <span className="text-md font-medium">Manage Expense</span>
+              </button>
+            </div>
+
+            {/* Manage Income */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/admin/manage-income")}
+              >
+                <FaDollarSign />
+                <span className="text-md font-medium">Manage Income</span>
+              </button>
+            </div>
+
+            {/* Expense History */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/admin/expense-history")}
+              >
+                <FaHistory />
+                <span className="text-md font-medium">Expense History</span>
               </button>
             </div>
 

@@ -166,3 +166,24 @@ exports.getAllIncomes = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch incomes" });
   }
 };
+
+exports.getFinancialSummary = async (req, res) => {
+  try {
+    const incomeAgg = await Income.aggregate([
+      { $group: { _id: null, total: { $sum: "$receivedAmount" } } }
+    ]);
+    const expenseAgg = await PendingExpense.aggregate([
+      { $match: { status: "approved" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } }
+    ]);
+
+    const totalIncome = incomeAgg[0]?.total || 0;
+    const totalExpense = expenseAgg[0]?.total || 0;
+    const profit = totalIncome - totalExpense;
+
+    res.json({ totalIncome, totalExpense, profit });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};

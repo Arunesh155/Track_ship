@@ -17,6 +17,7 @@ import AllEmployee from "./components/expense/admin/AllEmployee";
 import ManageIncome from "./components/expense/admin/ManageIncome";
 import ExpenseHistory from "./components/expense/admin/ExpenseHistory";
 import IncomeHistory from "./components/expense/admin/IncomeHistory";
+import AdminSummary from "./components/expense/admin/AdminSummary";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/admin/manage-income" element={<ManageIncome />} />
         <Route path="/admin/expense-history" element={<ExpenseHistory />} />
         <Route path="/admin/income-history" element={<IncomeHistory />} />
+        <Route path="/admin/summary" element={<AdminSummary />} />
       </Routes>
     </Router>
   );

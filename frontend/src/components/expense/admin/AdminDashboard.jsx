@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserPlus, FaMoneyBillWave, FaReceipt, FaChartPie, FaDollarSign, FaHistory, FaChartLine } from "react-icons/fa";
+import { FaUserShield, FaUsers, FaUserPlus, FaMoneyBillWave, FaReceipt, FaChartPie, FaHistory, FaChartLine, FaClipboardList } from "react-icons/fa";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -43,6 +43,17 @@ const AdminDashboard = () => {
               </button>
             </div>
 
+            {/* View Employee */}
+            <div className="group relative">
+              <button
+                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+                onClick={() => navigate("/employee/all")}
+              >
+                <FaUsers />
+                <span className="text-md font-medium">View Employee</span>
+              </button>
+            </div>
+
             {/* Manage Expense */}
             <div className="group relative">
               <button
@@ -60,8 +71,8 @@ const AdminDashboard = () => {
                 className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
                 onClick={() => navigate("/admin/manage-income")}
               >
-                <FaDollarSign />
-                <span className="text-md font-medium">Manage Income</span>
+                <FaClipboardList />
+                <span className="text-md font-medium">Manage Order</span>
               </button>
             </div>
 
@@ -83,7 +94,7 @@ const AdminDashboard = () => {
                 onClick={() => navigate("/admin/income-history")}
               >
                 <FaReceipt />
-                <span className="text-md font-medium">Income History</span>
+                <span className="text-md font-medium">Order History</span>
               </button>
             </div>
 
@@ -93,7 +104,7 @@ const AdminDashboard = () => {
                 className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
                 onClick={() => navigate("/admin/summary")}
               >
-                <FaChartLine/>
+                <FaChartLine />
                 <span className="text-md font-medium">Summary</span>
               </button>
             </div>
@@ -116,7 +127,12 @@ const AdminDashboard = () => {
       <div className="flex-1 p-6">
         {/* Top Navbar */}
         <div className="flex justify-between items-center text-black py-4 px-6 shadow-md bg-white rounded-md">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          {/* Admin Icon and Text */}
+          <div className="flex items-center gap-3">
+            <FaUserShield className="text-2xl text-blue-600" /> {/* Admin icon */}
+            <h1 className="text-2xl font-bold">Admin</h1>
+          </div>
+
           <button
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-300"
             onClick={() => {
@@ -128,31 +144,39 @@ const AdminDashboard = () => {
           </button>
         </div>
 
-        {/* Dashboard Main Content */}
-        <div className="mt-16">
-          <h2 className="text-3xl font-semibold mb-4">
-            Welcome to the Admin Dashboard
+        <div className="mt-12">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            Welcome to the Admin Dashboard!
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div
-              className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer"
-              onClick={() => navigate("/employee/all")}
-            >
-              <h3 className="text-xl font-semibold mb-2">Employees</h3>
-              <p className="text-gray-600">View all registered employees.</p>
-            </div>
+          <p className="text-xl text-gray-700 mb-8 text-center">
+            Here, you can manage employees, expenses, income, and track the overall business progress. Below are the key activities you can perform:
+          </p>
 
-            <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold mb-2">Expenses</h3>
-              <p className="text-gray-600">
-                Track and manage all expense records.
-              </p>
+          {/* Activities Summary */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+              <FaUsers className="text-blue-600 text-3xl mb-2" />
+              <h4 className="text-lg font-semibold">Total Employees</h4>
+              <p className="text-gray-600 mt-1 text-xl font-bold">128</p>
+              <p className="text-sm text-gray-600 mt-2">Manage and view all employee details.</p>
             </div>
-            <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
-              <h3 className="text-xl font-semibold mb-2">Reports</h3>
-              <p className="text-gray-600">
-                View detailed analytics and statistics.
-              </p>
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+              <FaMoneyBillWave className="text-red-600 text-3xl mb-2" />
+              <h4 className="text-lg font-semibold">Total Expenses</h4>
+              <p className="text-gray-600 mt-1 text-xl font-bold">₹2,34,000</p>
+              <p className="text-sm text-gray-600 mt-2">Track and manage business expenses.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+              <FaReceipt className="text-green-600 text-3xl mb-2" />
+              <h4 className="text-lg font-semibold">Total Orders</h4>
+              <p className="text-gray-600 mt-1 text-xl font-bold">450</p>
+              <p className="text-sm text-gray-600 mt-2">Monitor orders and customer interactions.</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+              <FaChartLine className="text-purple-600 text-3xl mb-2" />
+              <h4 className="text-lg font-semibold">Growth</h4>
+              <p className="text-gray-600 mt-1 text-xl font-bold">+18%</p>
+              <p className="text-sm text-gray-600 mt-2">Track the performance growth.</p>
             </div>
           </div>
         </div>

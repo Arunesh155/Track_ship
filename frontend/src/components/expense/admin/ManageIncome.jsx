@@ -8,7 +8,9 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
     name: "",
     address: "",
     phoneNumber: "",
-    courierId: "",
+    receiverName: "",
+    receiverAddress: "",
+    receiverPhoneNumber: "",
     courierType: "",
     receivedAmount: "",
     paymentMethod: "",
@@ -17,7 +19,6 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
 
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,23 +28,25 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/api/admin/add-income", formData);
-      setMessage("Employee registered successfully!");
+      setMessage("Order recorded successfully!");
       setTimeout(() => {
         navigate("/admin/dashboard");
       }, 2000);
-      onIncomeAdded(); // Safely invoked even if not passed
+      onIncomeAdded();
       setFormData({
         name: "",
         address: "",
         phoneNumber: "",
-        courierId: "",
+        receiverName: "",
+        receiverAddress: "",
+        receiverPhoneNumber: "",
         courierType: "",
         receivedAmount: "",
         paymentMethod: "",
         notes: ""
       });
     } catch (error) {
-      setMessage("Error adding income");
+      setMessage("Error recording order");
       console.error(error);
     }
   };
@@ -56,7 +59,7 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
       >
         ←
       </button>
-      <h2 className="text-2xl font-bold text-center mb-6">Add Income</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">Add Order</h2>
 
       {message && (
         <div
@@ -70,50 +73,74 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-1 font-medium">Name:</label>
+          <label className="block mb-1 font-medium">Sender Name:</label>
           <input
             name="name"
             value={formData.name}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded"
-            placeholder="Name"
+            placeholder="Sender Name"
           />
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Address:</label>
+          <label className="block mb-1 font-medium">Sender Address:</label>
           <input
             name="address"
             value={formData.address}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded"
-            placeholder="Address"
+            placeholder="Sender Address"
           />
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Phone Number:</label>
+          <label className="block mb-1 font-medium">Sender Phone Number:</label>
           <input
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded"
-            placeholder="Phone Number"
+            placeholder="Sender Phone Number"
           />
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Courier ID:</label>
+          <label className="block mb-1 font-medium">Receiver Name:</label>
           <input
-            name="courierId"
-            value={formData.courierId}
+            name="receiverName"
+            value={formData.receiverName}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded"
-            placeholder="Courier ID"
+            placeholder="Receiver Name"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Receiver Address:</label>
+          <input
+            name="receiverAddress"
+            value={formData.receiverAddress}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+            placeholder="Receiver Address"
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Receiver Phone Number:</label>
+          <input
+            name="receiverPhoneNumber"
+            value={formData.receiverPhoneNumber}
+            onChange={handleChange}
+            required
+            className="w-full p-2 border rounded"
+            placeholder="Receiver Phone Number"
           />
         </div>
 
@@ -176,7 +203,7 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded"
         >
-          Add Income
+          Add Order
         </button>
       </form>
     </div>

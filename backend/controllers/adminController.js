@@ -1,6 +1,7 @@
 const Admin = require("../models/adminModel");
 const PendingExpense = require("../models/Expense");
 const Income = require("../models/Income");
+const Employee = require("../models/employeeModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -149,10 +150,10 @@ exports.addIncome = async (req, res) => {
   try {
     const income = new Income(req.body);
     await income.save();
-    res.status(201).json({ message: "Income added successfully", income });
+    res.status(201).json({ message: 'Income added successfully', income });
   } catch (error) {
-    console.error("Add income error:", error);
-    res.status(500).json({ message: "Failed to add income" });
+    console.error('Error adding income:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -172,16 +173,22 @@ exports.getFinancialSummary = async (req, res) => {
     const incomeAgg = await Income.aggregate([
       { $group: { _id: null, total: { $sum: "$receivedAmount" } } }
     ]);
+
     const expenseAgg = await PendingExpense.aggregate([
       { $match: { status: "approved" } },
       { $group: { _id: null, total: { $sum: "$amount" } } }
     ]);
 
+    const salaryAgg = await Employee.aggregate([
+      { $group: { _id: null, total: { $sum: "$salary" } } }
+    ]);
+
     const totalIncome = incomeAgg[0]?.total || 0;
     const totalExpense = expenseAgg[0]?.total || 0;
-    const profit = totalIncome - totalExpense;
+    const totalSalary = salaryAgg[0]?.total || 0;
+    const profit = totalIncome - (totalExpense + totalSalary);
 
-    res.json({ totalIncome, totalExpense, profit });
+    res.json({ totalIncome, totalExpense, totalSalary, profit });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong" });

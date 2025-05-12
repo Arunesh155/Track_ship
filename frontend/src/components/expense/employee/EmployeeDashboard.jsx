@@ -72,7 +72,7 @@ const EmployeeDashboard = () => {
         <div className="flex justify-between items-center text-black py-4 px-6 shadow-md bg-white rounded-md">
           <div className="flex items-center gap-3">
             <FaUserCircle className="text-2xl text-gray-700" />
-            <h1 className="text-2xl font-bold">Employee</h1>
+            <h1 className="text-2xl font-bold">{employeeName || "Employee"}</h1>
           </div>
 
           <button
@@ -86,7 +86,7 @@ const EmployeeDashboard = () => {
         {/* Dashboard Main Content */}
         <div className="mt-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-            Welcome, {employeeName || "Employee"}!
+            Welcome to the employee dashboard
           </h2>
           <p className="text-xl text-gray-700 mb-8 text-center">
             Here, you can manage and track your expenses. Below are the key actions you can perform:

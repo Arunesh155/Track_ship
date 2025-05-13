@@ -1,12 +1,12 @@
 const Employee = require("../models/employeeModel");
-const PendingExpense = require("../models/PendingExpense");
+const PendingExpense = require("../models/Expense");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Register Employee
 exports.registerEmployee = async (req, res) => {
   try {
-    const { name, username, password, age, mobileNo, proofType } = req.body;
+    const { name, username, password, age, mobileNo,designation, salary, proofType } = req.body;
 
     // Ensure both files are uploaded
     if (!req.files || !req.files.proofFile || !req.files.employeePhoto) {
@@ -24,6 +24,8 @@ exports.registerEmployee = async (req, res) => {
       password: hashedPassword,
       age,
       mobileNo,
+      designation,
+      salary,
       proofType,
       proofFile: proofFilePath,
       employeePhoto: photoFilePath,

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const AllEmployee = () => {
   const [employees, setEmployees] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [selectedDesignation, setSelectedDesignation] = useState("All");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,6 +13,7 @@ const AllEmployee = () => {
       try {
         const res = await axios.get("http://localhost:5000/api/employees/all");
         setEmployees(res.data);
+        setFilteredEmployees(res.data); // Initialize filtered employees
       } catch (err) {
         console.error("Error fetching employees:", err);
       }
@@ -18,6 +21,17 @@ const AllEmployee = () => {
 
     fetchEmployees();
   }, []);
+
+  const handleDesignationChange = (event) => {
+    const designation = event.target.value;
+    setSelectedDesignation(designation);
+
+    if (designation === "All") {
+      setFilteredEmployees(employees);
+    } else {
+      setFilteredEmployees(employees.filter(emp => emp.designation === designation));
+    }
+  };
 
   return (
     <div className="p-6">
@@ -31,6 +45,20 @@ const AllEmployee = () => {
       
       <h2 className="text-2xl font-bold mb-6 text-center">All Employees</h2>
 
+      {/* Dropdown for Designation Filter */}
+      <div className="mb-4 flex justify-center">
+        <select
+          value={selectedDesignation}
+          onChange={handleDesignationChange}
+          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm"
+        >
+          <option value="All">All</option>
+          <option value="Manager">Manager</option>
+          <option value="Employee">Employee</option>
+          <option value="Driver">Driver</option>
+        </select>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-200">
@@ -40,11 +68,11 @@ const AllEmployee = () => {
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Photo</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Age</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Phone Number</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Proof Type</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Salary</th>
             </tr>
           </thead>
           <tbody>
-            {employees.map((emp, index) => (
+            {filteredEmployees.map((emp, index) => (
               <tr key={emp._id} className="border-b hover:bg-gray-100">
                 <td className="px-6 py-4 text-sm text-gray-900">{`EID${(index + 1).toString().padStart(3, '0')}`}</td>
                 <td className="px-6 py-4 text-sm text-gray-900">{emp.name}</td>
@@ -57,7 +85,7 @@ const AllEmployee = () => {
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-900">{emp.age}</td>
                 <td className="px-6 py-4 text-sm text-gray-900">{emp.mobileNo}</td>
-                <td className="px-6 py-4 text-sm text-gray-900">{emp.proofType}</td>
+                <td className="px-6 py-4 text-sm text-gray-900">{emp.salary}</td>
               </tr>
             ))}
           </tbody>

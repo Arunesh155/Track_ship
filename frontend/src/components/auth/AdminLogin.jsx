@@ -14,7 +14,7 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const response = await axios.post("https://track-ship-a1n1.onrender.com/api/admin/login", { email, password });
+      const response = await axios.post("http://localhost:5000/api/admin/login", { email, password });
       localStorage.setItem("adminToken", response.data.token);
       alert("Login Successful!");
       navigate("/admin/dashboard");

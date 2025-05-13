@@ -1,17 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserShield, FaUsers, FaUserPlus, FaMoneyBillWave, FaReceipt, FaChartPie, FaHistory, FaChartLine, FaClipboardList } from "react-icons/fa";
+import {
+  FaUserShield,
+  FaUsers,
+  FaUserPlus,
+  FaMoneyBillWave,
+  FaReceipt,
+  FaChartPie,
+  FaHistory,
+  FaChartLine,
+  FaClipboardList,
+} from "react-icons/fa";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const [totalEmployees, setTotalEmployees] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (!token) {
       alert("Unauthorized! Please log in.");
       navigate("/login");
+      return;
     }
+
+    const fetchSummaryData = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/admin/dashboard", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch");
+
+        const data = await response.json();
+        setTotalEmployees(data.totalEmployees);
+        setTotalExpenses(data.totalExpenses);
+        setTotalOrders(data.totalOrders);
+      } catch (error) {
+        console.error("Error fetching summary:", error);
+      }
+    };
+
+    fetchSummaryData();
   }, [navigate]);
 
   return (
@@ -21,7 +57,6 @@ const AdminDashboard = () => {
         className={`bg-white shadow-md ${isSidebarOpen ? "w-64" : "w-20"
           } transition-all duration-300 ease-in-out h-screen`}
       >
-        {/* Hamburger Icon */}
         <button
           className="text-black text-2xl p-4 focus:outline-none"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -29,107 +64,52 @@ const AdminDashboard = () => {
           {isSidebarOpen ? "✖" : "☰"}
         </button>
 
-        {/* Sidebar Menu - Only show when sidebar is open */}
         {isSidebarOpen && (
           <div className="mt-8 space-y-4">
-            {/* Register Employee */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/register-employee")}
-              >
-                <FaUserPlus />
-                <span className="text-md font-medium">Register Employee</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/register-employee")}>
+              <FaUserPlus />
+              <span className="text-md font-medium">Register Employee</span>
+            </button>
 
-            {/* View Employee */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/employee/all")}
-              >
-                <FaUsers />
-                <span className="text-md font-medium">View Employee</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/manage-expense")}>
+              <FaMoneyBillWave />
+              <span className="text-md font-medium">Manage Expense</span>
+            </button>
 
-            {/* Manage Expense */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/manage-expense")}
-              >
-                <FaMoneyBillWave />
-                <span className="text-md font-medium">Manage Expense</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/manage-income")}>
+              <FaClipboardList />
+              <span className="text-md font-medium">Manage Order</span>
+            </button>
 
-            {/* Manage Income */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/manage-income")}
-              >
-                <FaClipboardList />
-                <span className="text-md font-medium">Manage Order</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/expense-history")}>
+              <FaHistory />
+              <span className="text-md font-medium">Expense History</span>
+            </button>
 
-            {/* Expense History */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/expense-history")}
-              >
-                <FaHistory />
-                <span className="text-md font-medium">Expense History</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/summary")}>
+              <FaChartLine />
+              <span className="text-md font-medium">Summary</span>
+            </button>
 
-            {/* Income History */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/income-history")}
-              >
-                <FaReceipt />
-                <span className="text-md font-medium">Order History</span>
-              </button>
-            </div>
-
-            {/* Summary */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/summary")}
-              >
-                <FaChartLine />
-                <span className="text-md font-medium">Summary</span>
-              </button>
-            </div>
-
-            {/* Expense Stats */}
-            <div className="group relative">
-              <button
-                className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
-                onClick={() => navigate("/admin/expense-stats")}
-              >
-                <FaChartPie />
-                <span className="text-md font-medium">Expense Stats</span>
-              </button>
-            </div>
+            <button className="flex items-center gap-4 w-full px-4 py-3 text-black hover:bg-gray-200 rounded-md transition"
+              onClick={() => navigate("/admin/expense-stats")}>
+              <FaChartPie />
+              <span className="text-md font-medium">Expense Stats</span>
+            </button>
           </div>
         )}
       </div>
 
       {/* Main Content */}
       <div className="flex-1 p-6">
-        {/* Top Navbar */}
         <div className="flex justify-between items-center text-black py-4 px-6 shadow-md bg-white rounded-md">
-          {/* Admin Icon and Text */}
           <div className="flex items-center gap-3">
-            <FaUserShield className="text-2xl text-blue-600" /> {/* Admin icon */}
+            <FaUserShield className="text-2xl text-blue-600" />
             <h1 className="text-2xl font-bold">Admin</h1>
           </div>
 
@@ -149,34 +129,26 @@ const AdminDashboard = () => {
             Welcome to the Admin Dashboard!
           </h2>
           <p className="text-xl text-gray-700 mb-8 text-center">
-            Here, you can manage employees, expenses, income, and track the overall business progress. Below are the key activities you can perform:
+            Here, you can manage employees, expenses, income, and track the overall business progress.
           </p>
 
-          {/* Activities Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto ">
+            {/* Total Employees */}
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+              onClick={() => navigate("/employee/all")}>
               <FaUsers className="text-blue-600 text-3xl mb-2" />
               <h4 className="text-lg font-semibold">Total Employees</h4>
-              <p className="text-gray-600 mt-1 text-xl font-bold">128</p>
+              <p className="text-gray-600 mt-1 text-xl font-bold">{totalEmployees}</p>
               <p className="text-sm text-gray-600 mt-2">Manage and view all employee details.</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-              <FaMoneyBillWave className="text-red-600 text-3xl mb-2" />
-              <h4 className="text-lg font-semibold">Total Expenses</h4>
-              <p className="text-gray-600 mt-1 text-xl font-bold">₹2,34,000</p>
-              <p className="text-sm text-gray-600 mt-2">Track and manage business expenses.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+
+            {/* Total Orders */}
+            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+              onClick={() => navigate("/admin/income-history")}>
               <FaReceipt className="text-green-600 text-3xl mb-2" />
               <h4 className="text-lg font-semibold">Total Orders</h4>
-              <p className="text-gray-600 mt-1 text-xl font-bold">450</p>
+              <p className="text-gray-600 mt-1 text-xl font-bold">{totalOrders}</p>
               <p className="text-sm text-gray-600 mt-2">Monitor orders and customer interactions.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-              <FaChartLine className="text-purple-600 text-3xl mb-2" />
-              <h4 className="text-lg font-semibold">Growth</h4>
-              <p className="text-gray-600 mt-1 text-xl font-bold">+18%</p>
-              <p className="text-sm text-gray-600 mt-2">Track the performance growth.</p>
             </div>
           </div>
         </div>

@@ -2,31 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const ExpenseHistory = () => {
-  const [expenses, setExpenses] = useState([]);
+const TotalExpense = () => {
+  const [acceptedExpenses, setAcceptedExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchExpenses = async () => {
+    const fetchAcceptedExpenses = async () => {
       try {
         const token = localStorage.getItem("adminToken");
         const response = await axios.get("http://localhost:5000/api/admin/expense-history", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
-        // Ensure data is sorted by date (or other field) in descending order
-        const sortedExpenses = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setExpenses(sortedExpenses);
+
+        // ✅ Filter only accepted expenses (robust against case/spacing)
+        const filtered = response.data.filter(
+          (expense) => expense.status?.toLowerCase().trim() === "accepted"
+        );
+
+        setAcceptedExpenses(filtered);
       } catch (error) {
-        console.error("Error fetching expense history:", error);
-        alert("Failed to fetch expense history.");
+        console.error("Error fetching accepted expenses:", error);
+        alert("Failed to fetch accepted expenses.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchExpenses();
+    fetchAcceptedExpenses();
   }, []);
 
   return (
@@ -37,12 +40,12 @@ const ExpenseHistory = () => {
       >
         ←
       </button>
-      <h2 className="text-2xl font-bold text-center mb-6">Expense History</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">Accepted Expense History</h2>
 
       {loading ? (
-        <p>Loading expenses...</p>
-      ) : expenses.length === 0 ? (
-        <p>No expenses found.</p>
+        <p>Loading accepted expenses...</p>
+      ) : acceptedExpenses.length === 0 ? (
+        <p>No accepted expenses found.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
@@ -57,15 +60,13 @@ const ExpenseHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {expenses.map((expense) => (
+              {acceptedExpenses.map((expense) => (
                 <tr key={expense._id} className="hover:bg-gray-50">
                   <td className="px-4 py-2 border-b">{expense.employeeName || "N/A"}</td>
                   <td className="px-4 py-2 border-b">{expense.title}</td>
                   <td className="px-4 py-2 border-b">₹{expense.amount}</td>
                   <td className="px-4 py-2 border-b">{expense.date}</td>
-                  <td className={`px-4 py-2 border-b ${expense.status === "rejected" ? "text-red-600" : "text-green-600"}`}>
-                    {expense.status}
-                  </td>
+                  <td className="px-4 py-2 border-b text-green-600">{expense.status}</td>
                   <td className="px-4 py-2 border-b">{expense.paymentStatus}</td>
                 </tr>
               ))}
@@ -77,4 +78,4 @@ const ExpenseHistory = () => {
   );
 };
 
-export default ExpenseHistory;
+export default TotalExpense;

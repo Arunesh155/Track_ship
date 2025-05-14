@@ -9,7 +9,7 @@ const IncomeHistory = () => {
 
   const fetchIncomes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/income-history");
+      const res = await axios.get("https://track-ship-a1n1.onrender.com/api/admin/income-history");
       setIncomes(res.data);
     } catch (error) {
       alert("Failed to fetch income data");

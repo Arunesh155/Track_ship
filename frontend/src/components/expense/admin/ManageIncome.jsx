@@ -27,7 +27,7 @@ const ManageIncome = ({ onIncomeAdded = () => {} }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/admin/add-income", formData);
+      await axios.post("https://track-ship-a1n1.onrender.com/api/admin/add-income", formData);
       setMessage("Order recorded successfully!");
       setTimeout(() => {
         navigate("/admin/dashboard");

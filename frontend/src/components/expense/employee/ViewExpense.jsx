@@ -12,7 +12,7 @@ const ViewExpense = () => {
       if (!token) return;
 
       try {
-        const res = await axios.get("http://localhost:5000/api/employees/my-expense", {
+        const res = await axios.get("https://track-ship-a1n1.onrender.com/api/employees/my-expense", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setExpenses(res.data);
@@ -40,7 +40,7 @@ const ViewExpense = () => {
 
             {e.billImage && (
               <img
-                src={`http://localhost:5000/uploads/${e.billImage}`}
+                src={`https://track-ship-a1n1.onrender.com/uploads/${e.billImage}`}
                 alt="Bill"
                 className="w-40 mt-2 rounded border"
               />

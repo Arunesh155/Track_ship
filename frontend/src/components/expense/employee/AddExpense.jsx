@@ -36,7 +36,7 @@ const AddExpense = () => {
         formData.append("employeeName", employeeName); // ✅ Optional
       }
 
-      await axios.post("http://localhost:5000/api/employees/add-expense", formData, {
+      await axios.post("https://track-ship-a1n1.onrender.com/api/employees/add-expense", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

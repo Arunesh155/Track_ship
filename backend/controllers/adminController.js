@@ -56,9 +56,29 @@ exports.loginAdmin = async (req, res) => {
 };
 
 // Admin Dashboard (Protected Route)
-exports.adminDashboard = async (req, res) => {
-  res.json({ message: "Welcome to the Admin Dashboard" });
+ exports.adminDashboard = async (req, res) => {
+  try {
+    const totalEmployees = await Employee.countDocuments();
+
+    // Sum only expenses where status is exactly 'accepted' (case-insensitive option included below)
+     const expenseAgg = await PendingExpense.aggregate([
+      { $match: { status: "approved" } },
+      { $group: { _id: null, total: { $sum: "$amount" } } }
+    ]);
+
+    const totalOrders = await Income.countDocuments(); // Or replace with Order.countDocuments()
+
+    res.json({
+      totalEmployees,
+      totalExpenses: expenseAgg[0]?.total || 0,
+      totalOrders
+    });
+  } catch (err) {
+    console.error('Error in adminDashboard:', err);
+    res.status(500).json({ message: 'Server error fetching summary' });
+  }
 };
+
 
 exports.getPendingExpenses = async (req, res) => {
   try {
@@ -194,3 +214,4 @@ exports.getFinancialSummary = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+

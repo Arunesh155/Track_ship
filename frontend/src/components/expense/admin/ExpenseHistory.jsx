@@ -5,17 +5,17 @@ import axios from "axios";
 const ExpenseHistory = () => {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filterStatus, setFilterStatus] = useState("all"); // New state
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
         const token = localStorage.getItem("adminToken");
-        const response = await axios.get("http://localhost:5000/api/admin/expense-history", {
+        const response = await axios.get("https://track-ship-a1n1.onrender.com/api/admin/expense-history", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
-        // Ensure data is sorted by date (or other field) in descending order
+
         const sortedExpenses = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setExpenses(sortedExpenses);
       } catch (error) {
@@ -29,6 +29,12 @@ const ExpenseHistory = () => {
     fetchExpenses();
   }, []);
 
+  // Filter logic
+  const filteredExpenses =
+    filterStatus === "all"
+      ? expenses
+      : expenses.filter((expense) => expense.status === filterStatus);
+
   return (
     <div className="p-6 relative">
       <button
@@ -39,10 +45,26 @@ const ExpenseHistory = () => {
       </button>
       <h2 className="text-2xl font-bold text-center mb-6">Expense History</h2>
 
+      {/* Dropdown Filter */}
+      <div className="mb-4 text-center">
+        <label htmlFor="statusFilter" className="mr-2 font-medium">Filter by Status:</label>
+        <select
+          id="statusFilter"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border border-gray-300 px-3 py-1 rounded"
+        >
+          <option value="all">All</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="pending">Pending</option>
+        </select>
+      </div>
+
       {loading ? (
         <p>Loading expenses...</p>
-      ) : expenses.length === 0 ? (
-        <p>No expenses found.</p>
+      ) : filteredExpenses.length === 0 ? (
+        <p>No expenses found for the selected status.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow">
@@ -57,13 +79,19 @@ const ExpenseHistory = () => {
               </tr>
             </thead>
             <tbody>
-              {expenses.map((expense) => (
+              {filteredExpenses.map((expense) => (
                 <tr key={expense._id} className="hover:bg-gray-50">
                   <td className="px-4 py-2 border-b">{expense.employeeName || "N/A"}</td>
                   <td className="px-4 py-2 border-b">{expense.title}</td>
                   <td className="px-4 py-2 border-b">₹{expense.amount}</td>
                   <td className="px-4 py-2 border-b">{expense.date}</td>
-                  <td className={`px-4 py-2 border-b ${expense.status === "rejected" ? "text-red-600" : "text-green-600"}`}>
+                  <td className={`px-4 py-2 border-b ${
+                    expense.status === "rejected"
+                      ? "text-red-600"
+                      : expense.status === "pending"
+                      ? "text-yellow-600"
+                      : "text-green-600"
+                  }`}>
                     {expense.status}
                   </td>
                   <td className="px-4 py-2 border-b">{expense.paymentStatus}</td>

@@ -46,7 +46,7 @@ const ExpenseChart = () => {
       const token = localStorage.getItem("adminToken");
 
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/expense-charts", {
+        const res = await axios.get("https://track-ship-a1n1.onrender.com/api/admin/expense-charts", {
           headers: { Authorization: token },
         });
 

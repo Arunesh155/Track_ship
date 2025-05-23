@@ -11,7 +11,7 @@ const AllEmployee = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/employees/all");
+        const res = await axios.get("https://track-ship-a1n1.onrender.com/api/employees/all");
         setEmployees(res.data);
         setFilteredEmployees(res.data); // Initialize filtered employees
       } catch (err) {
@@ -78,7 +78,7 @@ const AllEmployee = () => {
                 <td className="px-6 py-4 text-sm text-gray-900">{emp.name}</td>
                 <td className="px-6 py-4">
                   <img
-                    src={`http://localhost:5000/${emp.employeePhoto}`} // Use employee photo field
+                    src={`https://track-ship-a1n1.onrender.com/${emp.employeePhoto}`} // Use employee photo field
                     alt="Employee"
                     className="w-16 h-16 object-cover rounded-full border"
                   />

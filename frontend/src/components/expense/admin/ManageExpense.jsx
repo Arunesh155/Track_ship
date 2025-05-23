@@ -14,7 +14,7 @@ const ManageExpense = () => {
       if (!token) return;
 
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/pending-expenses", {
+        const res = await axios.get("https://track-ship-a1n1.onrender.com/api/admin/pending-expenses", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setExpenses(res.data);
@@ -30,7 +30,7 @@ const ManageExpense = () => {
   const handleAccept = async (id) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/admin/approve-expense/${id}`,
+        `https://track-ship-a1n1.onrender.com/api/admin/approve-expense/${id}`,
         { paymentStatus: "Paid" },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -52,7 +52,7 @@ const ManageExpense = () => {
 
     try {
       await axios.post(
-        `http://localhost:5000/api/admin/reject-expense/${id}`,
+        `https://track-ship-a1n1.onrender.com/api/admin/reject-expense/${id}`,
         { reason: reason[id] },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -94,7 +94,7 @@ const ManageExpense = () => {
 
               {exp.billImage && (
                 <img
-                  src={`http://localhost:5000/uploads/${exp.billImage}`}
+                  src={`https://track-ship-a1n1.onrender.com/uploads/${exp.billImage}`}
                   alt="Bill"
                   className="w-48 mt-2 rounded-lg border"
                 />

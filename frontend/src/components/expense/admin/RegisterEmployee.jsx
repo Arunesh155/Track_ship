@@ -67,7 +67,7 @@ const RegisterEmployee = () => {
     });
 
     try {
-      await axios.post("http://localhost:5000/api/employees/register", formDataToSend, {
+      await axios.post("https://track-ship-a1n1.onrender.com/api/employees/register", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage("Employee registered successfully!");

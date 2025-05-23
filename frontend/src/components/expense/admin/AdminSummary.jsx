@@ -9,7 +9,7 @@ const AdminSummary = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/admin/view-summary")
+    axios.get("https://track-ship-a1n1.onrender.com/api/admin/view-summary")
       .then(res => setSummary(res.data))
       .catch(err => console.error("Failed to fetch summary"));
   }, []);

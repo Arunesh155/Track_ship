@@ -11,7 +11,7 @@ const TotalExpense = () => {
     const fetchAcceptedExpenses = async () => {
       try {
         const token = localStorage.getItem("adminToken");
-        const response = await axios.get("http://localhost:5000/api/admin/expense-history", {
+        const response = await axios.get("https://track-ship-a1n1.onrender.com/api/admin/expense-history", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
